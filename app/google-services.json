@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "721439211450",
+    "firebase_url": "https://moviening-0-default-rtdb.firebaseio.com",
+    "project_id": "moviening-0",
+    "storage_bucket": "moviening-0.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:721439211450:android:b69bf801138c302d01e783",
+        "android_client_info": {
+          "package_name": "com.amgoapps.moviening"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "721439211450-dsq164kn4lt8fnoj2qsmu17jf576mu9e.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.amgoapps.moviening",
+            "certificate_hash": "adfbdc424b1755841bf625fb4697ea44167cb595"
+          }
+        },
+        {
+          "client_id": "721439211450-5jilc9ebaro6sn8st661h1mnjbfnmj5k.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAMRbE2rOcj_2ZKDbQKrpON0x7AeF5U6Tc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "721439211450-5jilc9ebaro6sn8st661h1mnjbfnmj5k.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
