@@ -11,7 +11,7 @@
 - SharedPreferences
 - Firebase
 - Androidx Credentials 
-- API de las películas
+- API The Movie DataBase (TMDB)
 
 ## INSTRUCCIONES DE USO:
 IMPORTANTE: Si descarga una versión externa de la app diferente a la de Google Play, el inicio de sesión con Google no funcionará.
