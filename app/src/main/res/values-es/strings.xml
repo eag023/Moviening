@@ -94,6 +94,7 @@
     <string name="create">Crear</string>
     <string name="cancel">Cancelar</string>
     <string name="delete">Eliminar</string>
+    <string name="delete_list">¿Eliminar</string>
     <string name="yes">Sí</string>
     <string name="no">No</string>
     <string name="edit">Editar</string>

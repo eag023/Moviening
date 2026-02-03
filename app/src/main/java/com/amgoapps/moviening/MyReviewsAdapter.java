@@ -26,7 +26,7 @@ import retrofit2.Response;
 
 /**
  * Adaptador para gestionar y mostrar la lista de reseñas realizadas por el usuario actual.
- * Proporciona funcionalidades para visualizar detalles de la película y eliminar reseñas.
+ * Proporciona funcionalidades para visualizar detalles, animar y eliminar reseñas.
  */
 public class MyReviewsAdapter extends RecyclerView.Adapter<MyReviewsAdapter.ViewHolder> {
 
@@ -36,6 +36,7 @@ public class MyReviewsAdapter extends RecyclerView.Adapter<MyReviewsAdapter.View
 
     /**
      * Constructor del adaptador.
+     *
      * @param context Contexto de la aplicación o actividad.
      * @param reviews Lista de objetos Review a mostrar.
      */
@@ -46,6 +47,7 @@ public class MyReviewsAdapter extends RecyclerView.Adapter<MyReviewsAdapter.View
 
     /**
      * Actualiza la lista de reseñas y notifica al adaptador los cambios.
+     *
      * @param reviews Nueva lista de reseñas.
      */
     public void setReviews(List<Review> reviews) {
@@ -55,6 +57,7 @@ public class MyReviewsAdapter extends RecyclerView.Adapter<MyReviewsAdapter.View
 
     /**
      * Infla el diseño de la vista para cada elemento de la lista.
+     *
      * @param parent El ViewGroup en el que se añadirá la nueva vista.
      * @param viewType El tipo de vista de la nueva vista.
      * @return Una nueva instancia de ViewHolder.
@@ -68,12 +71,16 @@ public class MyReviewsAdapter extends RecyclerView.Adapter<MyReviewsAdapter.View
 
     /**
      * Vincula los datos de una reseña específica con los componentes de la interfaz.
+     * Restablece la opacidad de la vista y configura los listeners de clic y clic largo.
+     *
      * @param holder El ViewHolder que debe ser actualizado.
      * @param position La posición del elemento dentro del conjunto de datos.
      */
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Review review = reviews.get(position);
+
+        holder.itemView.setAlpha(1.0f);
 
         holder.txtTitle.setText(review.getMovieTitle());
         holder.txtRating.setText(String.format("%.1f", review.getRating()));
@@ -95,7 +102,7 @@ public class MyReviewsAdapter extends RecyclerView.Adapter<MyReviewsAdapter.View
         });
 
         holder.itemView.setOnLongClickListener(v -> {
-            mostrarPopupEliminar(v, review, position);
+            mostrarPopupEliminar(v, holder, review);
             return true;
         });
     }
@@ -103,6 +110,7 @@ public class MyReviewsAdapter extends RecyclerView.Adapter<MyReviewsAdapter.View
     /**
      * Realiza una petición a la API de TMDB para obtener la información completa de una película
      * y abre la actividad de detalles.
+     *
      * @param movieId ID de la película en TMDB.
      */
     private void abrirDetallePeliculaConDatosCompletos(int movieId) {
@@ -127,12 +135,13 @@ public class MyReviewsAdapter extends RecyclerView.Adapter<MyReviewsAdapter.View
     }
 
     /**
-     * Muestra una ventana emergente para confirmar la eliminación de una reseña.
+     * Muestra una ventana emergente (Popup) para confirmar la eliminación de una reseña.
+     *
      * @param anchorView Vista que actúa como referencia para posicionar el popup.
+     * @param holder El ViewHolder del elemento seleccionado (para animación).
      * @param review El objeto Review que se desea eliminar.
-     * @param position La posición del elemento en la lista.
      */
-    private void mostrarPopupEliminar(View anchorView, Review review, int position) {
+    private void mostrarPopupEliminar(View anchorView, ViewHolder holder, Review review) {
         View popupView = LayoutInflater.from(context).inflate(R.layout.popup_delete_item, null);
 
         final PopupWindow popupWindow = new PopupWindow(popupView,
@@ -145,7 +154,7 @@ public class MyReviewsAdapter extends RecyclerView.Adapter<MyReviewsAdapter.View
 
         popupView.findViewById(R.id.btn_delete_item).setOnClickListener(v -> {
             popupWindow.dismiss();
-            borrarResenaDeFirebase(review, position);
+            animarYBorrar(holder, review);
         });
 
         int[] location = new int[2];
@@ -157,11 +166,33 @@ public class MyReviewsAdapter extends RecyclerView.Adapter<MyReviewsAdapter.View
     }
 
     /**
-     * Elimina de forma definitiva la reseña de la base de datos Firebase y actualiza la UI.
-     * @param review Reseña a eliminar.
-     * @param position Posición del elemento en la lista local.
+     * Ejecuta una animación de desvanecimiento sobre el elemento.
+     * Al finalizar la animación, elimina el ítem de la lista local y de Firebase.
+     *
+     * @param holder El ViewHolder del elemento a animar y eliminar.
+     * @param review El objeto Review asociado.
      */
-    private void borrarResenaDeFirebase(Review review, int position) {
+    private void animarYBorrar(ViewHolder holder, Review review) {
+        holder.itemView.animate()
+                .alpha(0f)
+                .setDuration(300)
+                .withEndAction(() -> {
+                    int currentPosition = holder.getAdapterPosition();
+                    if (currentPosition != RecyclerView.NO_POSITION) {
+                        reviews.remove(currentPosition);
+                        notifyItemRemoved(currentPosition);
+                        borrarResenaDeFirebase(review);
+                    }
+                })
+                .start();
+    }
+
+    /**
+     * Elimina de forma definitiva la reseña de la base de datos Firebase.
+     *
+     * @param review Reseña a eliminar.
+     */
+    private void borrarResenaDeFirebase(Review review) {
         if (FirebaseAuth.getInstance().getCurrentUser() == null) return;
         String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
@@ -170,15 +201,13 @@ public class MyReviewsAdapter extends RecyclerView.Adapter<MyReviewsAdapter.View
                 .child(uid)
                 .removeValue()
                 .addOnSuccessListener(aVoid -> {
-                    reviews.remove(position);
-                    notifyItemRemoved(position);
-                    notifyItemRangeChanged(position, reviews.size());
                     Toast.makeText(context, R.string.review_deleted, Toast.LENGTH_SHORT).show();
                 });
     }
 
     /**
      * Devuelve el número total de reseñas en la lista.
+     *
      * @return Tamaño de la lista de reseñas.
      */
     @Override

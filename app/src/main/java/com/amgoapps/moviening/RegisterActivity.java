@@ -229,9 +229,19 @@ public class RegisterActivity extends AppCompatActivity {
                     if (task.isSuccessful()) {
                         FirebaseUser user = mAuth.getCurrentUser();
                         if (user != null) {
+                            String uid = user.getUid();
+
+                            DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("users").child(uid);
+
+                            Map<String, Object> userData = new HashMap<>();
+                            userData.put("username", username);
+                            userData.put("email", email);
+
+                            userRef.setValue(userData);
+
                             String encodedEmail = email.replace(".", ",");
-                            mEmailsNormalRef.child(encodedEmail).setValue(user.getUid());
-                            mDatabase.child(username).setValue(user.getUid());
+                            mEmailsNormalRef.child(encodedEmail).setValue(uid);
+                            mDatabase.child(username).setValue(uid); // Guarda en el índice de usernames
 
                             UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
                                     .setDisplayName(username)

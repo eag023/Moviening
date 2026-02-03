@@ -368,9 +368,9 @@ public class PersonMoviesActivity extends AppCompatActivity {
      */
     private void mostrarMenuFiltros() {
         PopupMenu popup = new PopupMenu(this, btnFilter);
-        popup.getMenu().add(0, 1, 0, getTextoFiltro("Nombre", 1));
-        popup.getMenu().add(0, 2, 0, getTextoFiltro("Año", 2));
-        popup.getMenu().add(0, 3, 0, getTextoFiltro("Valoración", 3));
+        popup.getMenu().add(0, 1, 0, getTextoFiltro(getString(R.string.name), 1));
+        popup.getMenu().add(0, 2, 0, getTextoFiltro(getString(R.string.year), 2));
+        popup.getMenu().add(0, 3, 0, getTextoFiltro(getString(R.string.rate), 3));
 
         popup.setOnMenuItemClickListener(item -> {
             aplicarFiltro(item.getItemId());

@@ -95,6 +95,7 @@
     <string name="create">Create</string>
     <string name="cancel">Cancel</string>
     <string name="delete">Delete</string>
+    <string name="delete_list">Delete</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
     <string name="edit">Edit</string>
@@ -171,7 +172,7 @@
 
     <string name="genre">What genre do you feel like watching today?</string>
     <string name="action">Action</string>
-    <string name="adventure">Aventura</string>
+    <string name="adventure">Adventure</string>
     <string name="sci_fi">Science fiction</string>
     <string name="fantasy">Fantasy</string>
     <string name="horror">Horror</string>

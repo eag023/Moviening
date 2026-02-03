@@ -562,7 +562,7 @@ public class ProfileFragment extends Fragment {
                 String displayTitle = listName;
 
                 if (listName.equals("Reviews") || listName.equals("Reseñas") || listName.equals(context.getString(R.string.reviews))) {
-                    h.txtListName.setText(context.getString(R.string.reviews)); // Forzar texto traducido
+                    h.txtListName.setText(context.getString(R.string.reviews));
                     h.imgIcon.setImageResource(R.drawable.ic_star_outline);
                     h.imgIcon.setColorFilter(ContextCompat.getColor(context, R.color.purple), PorterDuff.Mode.SRC_IN);
                     h.btnDelete.setVisibility(View.GONE);
@@ -580,19 +580,19 @@ public class ProfileFragment extends Fragment {
                 boolean isWatchlist = listName.equals("Watchlist") || listName.equals("Pendientes") || listName.equals(context.getString(R.string.watchlist));
 
                 if (isFav) {
-                    h.txtListName.setText(context.getString(R.string.favorite)); // Forzar texto traducido
+                    h.txtListName.setText(context.getString(R.string.favorite));
                     displayTitle = context.getString(R.string.favorite);
                     h.imgIcon.setImageResource(R.drawable.ic_heart);
                     h.btnDelete.setVisibility(View.GONE);
                     h.itemView.setOnLongClickListener(null);
                 } else if (isWatched) {
-                    h.txtListName.setText(context.getString(R.string.watched)); // Forzar texto traducido
+                    h.txtListName.setText(context.getString(R.string.watched));
                     displayTitle = context.getString(R.string.watched);
                     h.imgIcon.setImageResource(R.drawable.ic_eye);
                     h.btnDelete.setVisibility(View.GONE);
                     h.itemView.setOnLongClickListener(null);
                 } else if (isWatchlist) {
-                    h.txtListName.setText(context.getString(R.string.watchlist)); // Forzar texto traducido
+                    h.txtListName.setText(context.getString(R.string.watchlist));
                     displayTitle = context.getString(R.string.watchlist);
                     h.imgIcon.setImageResource(R.drawable.ic_clock);
                     h.btnDelete.setVisibility(View.GONE);
@@ -636,7 +636,7 @@ public class ProfileFragment extends Fragment {
     /**
      * Borra la lista en Firebase.
      */
-    private void borrarListaDeFirebase(String n) { new AlertDialog.Builder(getContext()).setTitle(getString(R.string.delete)).setMessage("¿"+ getString(R.string.delete) + " '"+n+"'?").setPositiveButton(getString(R.string.yes), (d,w)->mListsDbRef.child(n).removeValue()).setNegativeButton(getString(R.string.no),null).show(); }
+    private void borrarListaDeFirebase(String n) { new AlertDialog.Builder(getContext()).setTitle(getString(R.string.delete)).setMessage(getString(R.string.delete_list) + " '"+n+"'?").setPositiveButton(getString(R.string.yes), (d,w)->mListsDbRef.child(n).removeValue()).setNegativeButton(getString(R.string.no),null).show(); }
 
     /**
      * Actualiza la UI con los datos del usuario actual de Firebase y la base de datos.

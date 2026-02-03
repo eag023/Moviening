@@ -25,6 +25,10 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+/**
+ * Actividad encargada de mostrar el listado de reseñas creadas por el usuario actual.
+ * Gestiona la recuperación de datos desde Firebase, el filtrado, ordenación y actualización visual.
+ */
 public class MyReviewsActivity extends AppCompatActivity {
     private static final String API_KEY = "73987aabdaf7db8fdb77f48a49fba2ee";
 
@@ -36,13 +40,19 @@ public class MyReviewsActivity extends AppCompatActivity {
     private TextView txtTitle;
 
     private DatabaseReference reviewsRef;
-    private ValueEventListener reviewsListener; // Listener global
+    private ValueEventListener reviewsListener;
     private String currentUid;
 
     private List<Review> originalList = new ArrayList<>();
     private int currentFilterMode = 0;
     private int sortDirection = 2;
 
+    /**
+     * Método llamado al crear la actividad.
+     * Inicializa la interfaz de usuario, configura el RecyclerView y establece las referencias a Firebase.
+     *
+     * @param savedInstanceState Estado guardado de la instancia anterior, si existe.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,7 +69,8 @@ public class MyReviewsActivity extends AppCompatActivity {
         btnFilter.setOnClickListener(v -> mostrarMenuFiltros());
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        adapter = new MyReviewsAdapter(this, new ArrayList<>());
+
+        adapter = new MyReviewsAdapter(this, originalList);
         recyclerView.setAdapter(adapter);
 
         if (FirebaseAuth.getInstance().getCurrentUser() == null) {
@@ -72,22 +83,33 @@ public class MyReviewsActivity extends AppCompatActivity {
         cargarMisResenas();
     }
 
+    /**
+     * Configura el listener de Firebase para cargar las reseñas del usuario en tiempo real.
+     * Gestiona la visibilidad de la lista y el estado vacío, y actualiza los datos cuando hay cambios.
+     */
     private void cargarMisResenas() {
         progressBar.setVisibility(View.VISIBLE);
 
-        // CAMBIO: Usamos addValueEventListener para actualizaciones en tiempo real
         reviewsListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                originalList.clear();
+                List<Review> tempList = new ArrayList<>();
 
                 for (DataSnapshot movieSnapshot : snapshot.getChildren()) {
                     if (movieSnapshot.hasChild(currentUid)) {
                         Review r = movieSnapshot.child(currentUid).getValue(Review.class);
                         if (r != null) {
-                            originalList.add(r);
+                            tempList.add(r);
                         }
                     }
+                }
+
+                if (originalList.size() != tempList.size()) {
+                    originalList.clear();
+                    originalList.addAll(tempList);
+                    ordenarLista();
+                    adapter.notifyDataSetChanged();
+                    actualizarIdiomaVisual();
                 }
 
                 progressBar.setVisibility(View.GONE);
@@ -105,9 +127,6 @@ public class MyReviewsActivity extends AppCompatActivity {
                     emptyState.setVisibility(View.GONE);
                     recyclerView.setVisibility(View.VISIBLE);
                     if (btnFilter != null) btnFilter.setVisibility(View.VISIBLE);
-
-                    ordenarLista();
-                    actualizarIdiomaVisual();
                 }
             }
 
@@ -120,19 +139,21 @@ public class MyReviewsActivity extends AppCompatActivity {
         reviewsRef.addValueEventListener(reviewsListener);
     }
 
+    /**
+     * Método llamado al destruir la actividad.
+     * Elimina el listener de Firebase para evitar fugas de memoria.
+     */
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        // IMPORTANTE: Eliminar el listener al cerrar la actividad
         if (reviewsRef != null && reviewsListener != null) {
             reviewsRef.removeEventListener(reviewsListener);
         }
     }
 
-    // =========================================================================
-    // LÓGICA DE ORDENACIÓN
-    // =========================================================================
-
+    /**
+     * Muestra un menú emergente con las opciones de filtrado y ordenación disponibles.
+     */
     private void mostrarMenuFiltros() {
         PopupMenu popup = new PopupMenu(this, btnFilter);
         popup.getMenu().add(0, 0, 0, getTextoFiltro(getString(R.string.date_added), 0));
@@ -145,6 +166,13 @@ public class MyReviewsActivity extends AppCompatActivity {
         popup.show();
     }
 
+    /**
+     * Genera el texto para el elemento del menú de filtro, indicando la dirección de ordenación actual.
+     *
+     * @param titulo Título base del filtro.
+     * @param modeID Identificador del modo de filtro.
+     * @return Texto formateado con flechas indicadoras de orden.
+     */
     private String getTextoFiltro(String titulo, int modeID) {
         if (currentFilterMode == modeID) {
             return titulo + (sortDirection == 1 ? " ⬆" : " ⬇");
@@ -152,6 +180,11 @@ public class MyReviewsActivity extends AppCompatActivity {
         return titulo;
     }
 
+    /**
+     * Aplica el filtro seleccionado y alterna la dirección de ordenación si ya estaba activo.
+     *
+     * @param selectedMode El modo de filtro seleccionado por el usuario.
+     */
     private void aplicarFiltro(int selectedMode) {
         if (currentFilterMode == selectedMode) {
             sortDirection = (sortDirection == 1) ? 2 : 1;
@@ -160,8 +193,12 @@ public class MyReviewsActivity extends AppCompatActivity {
             sortDirection = 2;
         }
         ordenarLista();
+        adapter.notifyDataSetChanged();
     }
 
+    /**
+     * Ordena la lista de reseñas basándose en el modo de filtro y la dirección actuales.
+     */
     private void ordenarLista() {
         if (originalList == null || originalList.isEmpty()) return;
 
@@ -174,14 +211,12 @@ public class MyReviewsActivity extends AppCompatActivity {
             }
             return (sortDirection == 2) ? -result : result;
         });
-
-        adapter.setReviews(originalList);
     }
 
-    // =========================================================================
-    // ACTUALIZACIÓN DE IDIOMA
-    // =========================================================================
-
+    /**
+     * Actualiza los títulos y pósters de las películas consultando la API de TMDB
+     * para asegurar que coincidan con el idioma actual del dispositivo.
+     */
     private void actualizarIdiomaVisual() {
         String language = java.util.Locale.getDefault().getLanguage();
         String apiLanguage = language.equals("es") ? "es-ES" : "en-US";
@@ -195,8 +230,6 @@ public class MyReviewsActivity extends AppCompatActivity {
                                 Movie apiData = response.body();
                                 review.setTitle(apiData.getTitle());
                                 review.setPosterPath(apiData.getPosterPath());
-
-                                // Notificamos cambios basados en el objeto, el adapter encontrará la posición
                                 adapter.notifyDataSetChanged();
                             }
                         }
