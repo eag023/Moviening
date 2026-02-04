@@ -120,7 +120,7 @@ public class InteractiveGuideManager {
                 apuntarAView(activity.findViewById(R.id.nav_recomend), activity.getString(R.string.recommend_guide));
                 break;
             case 4:
-                apuntarAView(activity.findViewById(R.id.nav_profile), activity.getString(R.string.recommend_guide));
+                apuntarAView(activity.findViewById(R.id.nav_profile), activity.getString(R.string.profile_guide));
                 break;
             case 5:
                 RecyclerView rv = activity.findViewById(R.id.recycler_search);

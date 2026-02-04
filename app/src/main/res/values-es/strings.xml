@@ -230,7 +230,7 @@
     <string name="search_guide">BÚSQUEDA\n\nEn esta pantalla podrás buscar cualquier película, director o actor</string>
     <string name="recommend_guide">RECOMENDADOR\n\nTe recomendará tres películas en base a tus peticiones o dejarlo completamente al azar. ¡Tú decides! También podrás ver cuál es la película del día.</string>
     <string name="profile_guide">TU PERFIL\n\nAquí accederás a tu perfil. Podrás ver y cambiar tu foto, consultar tus películas favoritas, vistas y pendientes además de tus reseñas y crear listas personalizadas.</string>
-    <string name="movie_guide">Si pulsas en una película, podrás acceder a su información (Equipo, valoración, etc), añadirla a una lista y escribir una reseña. Si mantienes pulsado </string>
+    <string name="movie_guide">Si pulsas en una película, podrás acceder a su información (Equipo, valoración, etc), añadirla a una lista y escribir una reseña. Si mantienes pulsado aparecerá el menú de acciones rápidas.</string>
     <string name="search_bar_guide">Escribe en la barra para mostrar las búsquedas en tiempo real</string>
     <string name="filters_guide">Aquí puedes ordenar los resultados de tu búsqueda</string>
     <string name="end_guide">¡Eso sería todo!\n¡Qué viva el cine!</string>
