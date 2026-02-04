@@ -182,6 +182,9 @@
     <string name="musical">Musical</string>
     <string name="drama">Drama</string>
     <string name="romance">Romance</string>
+    <string name="history">History</string>
+    <string name="war">War</string>
+    <string name="western">Western</string>
     <string name="random_genre">Surprise me</string>
 
     <string name="duration">How long do you want it to be?</string>
@@ -229,7 +232,7 @@
     <string name="search_guide">SEARCH\n\nOn this screen, you can search for any movie, director, or actor</string>
     <string name="recommend_guide">RECOMMENDER\n\nIt will recommend three movies based on your requests or leave it completely to chance. You decide! You can also see the movie of the day.</string>
     <string name="profile_guide">YOUR PROFILE\n\nAccess your profile here. You can view and change your photo, check your favorite, watched, and watchlist movies, manage your reviews, and create custom lists.</string>
-    <string name="movie_guide">If you tap on a movie, you can access its information (Cast &amp; Crew, rating, etc.), add it to a list, and write a review. If you press and hold </string>
+    <string name="movie_guide">If you tap on a movie, you can access its information (Cast &amp; Crew, rating, etc.), add it to a list, and write a review. If you press and hold, the quick actions menu will appear.</string>
     <string name="search_bar_guide">Type in the bar to show search results in real time</string>
     <string name="filters_guide">Here you can sort your search results</string>
     <string name="end_guide">That’s all!\nLong live the cinema!</string>

@@ -180,7 +180,10 @@
     <string name="animation">Animación</string>
     <string name="musical">Musical</string>
     <string name="drama">Drama</string>
-    <string name="romance">Romántica</string>
+    <string name="romance">Romance</string>
+    <string name="history">Historia</string>
+    <string name="war">Bélica</string>
+    <string name="western">Western</string>
     <string name="random_genre">Sorpréndeme</string>
 
     <string name="duration">¿Cuánto quieres que dure?</string>

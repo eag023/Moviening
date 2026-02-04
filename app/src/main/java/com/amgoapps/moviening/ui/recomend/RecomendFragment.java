@@ -428,6 +428,9 @@ public class RecomendFragment extends Fragment {
         agregarBotonOpcion(getString(R.string.musical), () -> selectedGenre = "10402");
         agregarBotonOpcion(getString(R.string.drama), () -> selectedGenre = "18");
         agregarBotonOpcion(getString(R.string.romance), () -> selectedGenre = "10749");
+        agregarBotonOpcion(getString(R.string.history), () -> selectedGenre = "36");
+        agregarBotonOpcion(getString(R.string.war), () -> selectedGenre = "10752");
+        agregarBotonOpcion(getString(R.string.western), () -> selectedGenre = "37");
         agregarBotonOpcion(getString(R.string.random_genre), () -> selectedGenre = null);
     }
 
@@ -756,7 +759,7 @@ public class RecomendFragment extends Fragment {
         if (FirebaseAuth.getInstance().getCurrentUser() == null) return;
 
         String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        FirebaseDatabase.getInstance().getReference("users").child(uid).child("lists").child(getString(R.string.watched))
+        FirebaseDatabase.getInstance().getReference("users").child(uid).child("lists").child("Watched")
                 .addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
