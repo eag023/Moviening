@@ -74,12 +74,10 @@ public class SearchFragment extends Fragment {
 
     private static final String API_KEY = "73987aabdaf7db8fdb77f48a49fba2ee";
 
-    // Variables para gestionar el filtrado y ordenación local sin volver a llamar a la API
     private List<Movie> originalList = new ArrayList<>();
-    private int currentFilterMode = 0; // 0: Ninguno, 1: Nombre, 2: Año, 3: Valoración
-    private int sortDirection = 0;     // 1: Ascendente, 2: Descendente
+    private int currentFilterMode = 0;
+    private int sortDirection = 0;
 
-    // Manejador para el retardo de búsqueda (Debounce)
     private Handler searchHandler = new Handler(Looper.getMainLooper());
     private Runnable searchRunnable;
 
@@ -100,11 +98,9 @@ public class SearchFragment extends Fragment {
         adapter = new MovieAdapter(getContext(), new ArrayList<>());
         recyclerView.setAdapter(adapter);
 
-        // Configuración de Clic simple: Navegación a detalles
         adapter.setOnItemClickListener(new MovieAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(Movie movie) {
-                // Distingue entre persona y película para abrir la actividad correcta
                 if ("person".equals(movie.getMediaType())) {
                     Intent intent = new Intent(getContext(), PersonDetailActivity.class);
                     intent.putExtra("PERSON_ID", movie.getId());
@@ -117,11 +113,9 @@ public class SearchFragment extends Fragment {
             }
         });
 
-        // Configuración de Long Clic: Menú rápido de listas
         adapter.setOnMovieLongClickListener(new MovieAdapter.OnMovieLongClickListener() {
             @Override
             public void onMovieLongClick(Movie movie, View view) {
-                // Las personas no se pueden añadir a listas de visualización
                 if ("person".equals(movie.getMediaType())) {
                     return;
                 }
@@ -131,10 +125,8 @@ public class SearchFragment extends Fragment {
 
         btnFilter.setOnClickListener(v -> mostrarMenuFiltros());
 
-        // Carga inicial de contenido
         cargarPeliculasPopulares();
 
-        // Configuración del buscador con patrón Debounce
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -144,32 +136,26 @@ public class SearchFragment extends Fragment {
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                // Cancela la búsqueda anterior si el usuario sigue escribiendo
                 if (searchRunnable != null) {
                     searchHandler.removeCallbacks(searchRunnable);
                 }
-                // Si borra el texto, volver a populares
                 if (newText.trim().isEmpty()) {
                     cargarPeliculasPopulares();
                     return true;
                 }
-                // Programa una nueva búsqueda con 500ms de retraso
                 searchRunnable = () -> buscarPeliculas(newText);
                 searchHandler.postDelayed(searchRunnable, 500);
                 return true;
             }
         });
 
-        // Gestión del botón "Atrás" del sistema
         requireActivity().getOnBackPressedDispatcher().addCallback(getViewLifecycleOwner(), new androidx.activity.OnBackPressedCallback(true) {
             @Override
             public void handleOnBackPressed() {
-                // Si hay texto en el buscador, lo limpiamos primero
                 if (searchView != null && searchView.getQuery().length() > 0) {
                     searchView.setQuery("", false);
                     searchView.clearFocus();
                 }
-                // Si ya estaba vacío, cerramos la actividad/app
                 else {
                     requireActivity().finish();
                 }
@@ -200,7 +186,6 @@ public class SearchFragment extends Fragment {
             searchView.setIconified(false);
             searchView.requestFocusFromTouch();
 
-            // Pequeño retraso para asegurar que la vista esté lista antes de pedir el teclado al sistema
             searchView.postDelayed(() -> {
                 InputMethodManager imm = (InputMethodManager) requireContext().getSystemService(Context.INPUT_METHOD_SERVICE);
                 if (imm != null) {
@@ -239,15 +224,13 @@ public class SearchFragment extends Fragment {
         TooltipCompat.setTooltipText(btnWatched, getString(R.string.watched));
         TooltipCompat.setTooltipText(btnWatchlist, getString(R.string.watchlist));
 
-        // Comprobación asíncrona del estado inicial en Firebase para colorear iconos
-        checkMovieInList(getString(R.string.favorites), movie.getId(), exists -> actualizarIcono(btnFav, exists, R.drawable.ic_heart, R.drawable.ic_heart_filled, R.color.dark_purple));
-        checkMovieInList(getString(R.string.watched), movie.getId(), exists -> actualizarIcono(btnWatched, exists, R.drawable.ic_eye, R.drawable.ic_eye_filled, R.color.green));
-        checkMovieInList(getString(R.string.watchlist), movie.getId(), exists -> actualizarIcono(btnWatchlist, exists, R.drawable.ic_clock, R.drawable.ic_clock_filled, R.color.blue));
+        checkMovieInList("Favorites", movie.getId(), exists -> actualizarIcono(btnFav, exists, R.drawable.ic_heart, R.drawable.ic_heart_filled, R.color.dark_purple));
+        checkMovieInList("Watched", movie.getId(), exists -> actualizarIcono(btnWatched, exists, R.drawable.ic_eye, R.drawable.ic_eye_filled, R.color.green));
+        checkMovieInList("Watchlist", movie.getId(), exists -> actualizarIcono(btnWatchlist, exists, R.drawable.ic_clock, R.drawable.ic_clock_filled, R.color.blue));
 
-        // Listeners para modificar el estado al hacer clic
-        btnFav.setOnClickListener(v -> toggleMovieInList(getString(R.string.favorites), movie, btnFav, R.drawable.ic_heart, R.drawable.ic_heart_filled, R.color.dark_purple));
-        btnWatched.setOnClickListener(v -> toggleMovieInList(getString(R.string.watched), movie, btnWatched, R.drawable.ic_eye, R.drawable.ic_eye_filled, R.color.green));
-        btnWatchlist.setOnClickListener(v -> toggleMovieInList(getString(R.string.watchlist), movie, btnWatchlist, R.drawable.ic_clock, R.drawable.ic_clock_filled, R.color.blue));
+        btnFav.setOnClickListener(v -> toggleMovieInList("Favorites", movie, btnFav, R.drawable.ic_heart, R.drawable.ic_heart_filled, R.color.dark_purple));
+        btnWatched.setOnClickListener(v -> toggleMovieInList("Watched", movie, btnWatched, R.drawable.ic_eye, R.drawable.ic_eye_filled, R.color.green));
+        btnWatchlist.setOnClickListener(v -> toggleMovieInList("Watchlist", movie, btnWatchlist, R.drawable.ic_clock, R.drawable.ic_clock_filled, R.color.blue));
 
         btnOther.setOnClickListener(v -> {
             popupWindow.dismiss();
@@ -256,7 +239,6 @@ public class SearchFragment extends Fragment {
 
         int[] location = new int[2];
         anchorView.getLocationOnScreen(location);
-        // Mostrar popup ligeramente desplazado respecto al elemento tocado
         popupWindow.showAtLocation(anchorView, Gravity.NO_GRAVITY, location[0] + 50, location[1] + 50);
     }
 
@@ -295,7 +277,7 @@ public class SearchFragment extends Fragment {
             img.setColorFilter(Color.BLACK, PorterDuff.Mode.SRC_IN);
             img.clearColorFilter();
         }
-        img.setTag(filled); // Guardamos el estado en el tag
+        img.setTag(filled);
     }
 
     /**
@@ -311,10 +293,8 @@ public class SearchFragment extends Fragment {
         boolean isCurrentlyAdded = (boolean) (img.getTag() != null ? img.getTag() : false);
 
         if (isCurrentlyAdded) {
-            // Eliminar
             movieRef.removeValue().addOnSuccessListener(v -> {
                 actualizarIcono(img, false, resNormal, resFilled, colorResId);
-                // Evitar que Firebase borre el nodo padre si no quedan hijos
                 listRef.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -324,7 +304,6 @@ public class SearchFragment extends Fragment {
                 });
             });
         } else {
-            // Añadir
             movieRef.setValue(movie).addOnSuccessListener(v -> {
                 actualizarIcono(img, true, resNormal, resFilled, colorResId);
             });
@@ -352,7 +331,6 @@ public class SearchFragment extends Fragment {
                 .setView(dialogView)
                 .create();
 
-        // Cargar listas existentes y generar CheckBoxes
         userListsRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -360,11 +338,10 @@ public class SearchFragment extends Fragment {
 
                 for (DataSnapshot data : snapshot.getChildren()) {
                     String listName = data.getKey();
-                    // Excluir listas del sistema
                     if (listName != null &&
-                            !listName.equals(getString(R.string.favorites)) &&
-                            !listName.equals(getString(R.string.watched)) &&
-                            !listName.equals(getString(R.string.watchlist))) {
+                            !listName.equals("Favorites") &&
+                            !listName.equals("Watched") &&
+                            !listName.equals("Watchlist")) {
 
                         agregarCheckBoxLista(containerLists, listName, movie, userListsRef);
                     }
@@ -373,7 +350,6 @@ public class SearchFragment extends Fragment {
             @Override public void onCancelled(@NonNull DatabaseError error) {}
         });
 
-        // Lógica para crear lista al pulsar "intro" en el teclado
         etNewList.setOnEditorActionListener((v, actionId, event) -> {
             if (actionId == EditorInfo.IME_ACTION_DONE) {
                 crearListaDesdeInput(etNewList, containerLists, movie, userListsRef);
@@ -386,7 +362,6 @@ public class SearchFragment extends Fragment {
             return false;
         });
 
-        // Lógica para crear lista al perder el foco del input
         etNewList.setOnFocusChangeListener((v, hasFocus) -> {
             if (!hasFocus) {
                 crearListaDesdeInput(etNewList, containerLists, movie, userListsRef);
@@ -471,10 +446,10 @@ public class SearchFragment extends Fragment {
      */
     private String getTextoFiltro(String titulo, int modeID) {
         if (currentFilterMode == modeID) {
-            if (modeID == 1) { // Nombre (A-Z)
+            if (modeID == 1) {
                 if (sortDirection == 1) return titulo + " ⬇";
                 if (sortDirection == 2) return titulo + " ⬆";
-            } else { // Año y Rating (Mayor a Menor)
+            } else {
                 if (sortDirection == 1) return titulo + " ⬆";
                 if (sortDirection == 2) return titulo + " ⬇";
             }
@@ -487,10 +462,10 @@ public class SearchFragment extends Fragment {
      */
     private void aplicarFiltro(int selectedMode) {
         if (currentFilterMode == selectedMode) {
-            if (selectedMode == 1) { // Nombre
+            if (selectedMode == 1) {
                 if (sortDirection == 1) sortDirection = 2;
                 else { apagarFiltros(); return; }
-            } else { // Año y Rating
+            } else {
                 if (sortDirection == 2) sortDirection = 1;
                 else { apagarFiltros(); return; }
             }
@@ -520,18 +495,18 @@ public class SearchFragment extends Fragment {
             public int compare(Movie m1, Movie m2) {
                 int result = 0;
                 switch (currentFilterMode) {
-                    case 1: // Nombre
+                    case 1:
                         String n1 = (m1.getTitle() != null) ? m1.getTitle() : m1.getName();
                         String n2 = (m2.getTitle() != null) ? m2.getTitle() : m2.getName();
                         if (n1 == null) n1 = ""; if (n2 == null) n2 = "";
                         result = n1.compareToIgnoreCase(n2);
                         break;
-                    case 2: // Año
+                    case 2:
                         String d1 = m1.getReleaseDate() != null ? m1.getReleaseDate() : "";
                         String d2 = m2.getReleaseDate() != null ? m2.getReleaseDate() : "";
                         result = d1.compareTo(d2);
                         break;
-                    case 3: // Rating
+                    case 3:
                         result = Double.compare(m1.getTmdbRating(), m2.getTmdbRating());
                         break;
                 }
@@ -575,7 +550,6 @@ public class SearchFragment extends Fragment {
                         if (response.isSuccessful() && response.body() != null) {
                             List<Movie> listaOriginal = response.body().getResults();
 
-                            // Filtrado inicial de calidad
                             List<Movie> listaFiltrada = filtrarPeliculasDeCalidad(listaOriginal);
 
                             guardarBackup(listaFiltrada);
@@ -600,14 +574,12 @@ public class SearchFragment extends Fragment {
 
                             Movie mejorCoincidencia = resultados.get(0);
 
-                            // Si el mejor resultado es una persona, mostrar solo esa persona
                             if ("person".equals(mejorCoincidencia.getMediaType())) {
                                 List<Movie> personaUnica = new ArrayList<>();
                                 personaUnica.add(mejorCoincidencia);
                                 guardarBackup(personaUnica);
                                 adapter.setMovies(personaUnica);
                             } else {
-                                // Si no, filtrar y mostrar películas
                                 List<Movie> pelisLimpias = new ArrayList<>();
                                 for (Movie m : resultados) {
                                     if ("movie".equals(m.getMediaType()) || m.getMediaType() == null) {
@@ -646,10 +618,8 @@ public class SearchFragment extends Fragment {
     private List<Movie> filtrarPeliculasDeCalidad(List<Movie> listaSucia) {
         List<Movie> listaLimpia = new ArrayList<>();
         for (Movie m : listaSucia) {
-            // Validación de sinopsis válida
             boolean tieneSinopsis = m.getOverview() != null && !m.getOverview().trim().isEmpty();
 
-            // Validación de popularidad mínima (más de 100 votos)
             boolean tieneVotosSuficientes = m.getVoteCount() > 100;
 
             if (tieneSinopsis && tieneVotosSuficientes) {

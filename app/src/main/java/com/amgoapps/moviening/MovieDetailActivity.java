@@ -156,7 +156,6 @@ public class MovieDetailActivity extends AppCompatActivity {
 
         txtTitle.setText(currentMovie.getTitle());
 
-        // Lógica de formateo de fecha (Año o "Próximamente")
         String dateStr = currentMovie.getReleaseDate();
         if (dateStr == null || dateStr.isEmpty()) {
             txtYear.setText(getString(R.string.coming_soon));
@@ -182,7 +181,6 @@ public class MovieDetailActivity extends AppCompatActivity {
         configurarPuntuacion(currentMovie.getTmdbRating());
         Glide.with(this).load(currentMovie.getFullPosterUrl()).into(imgPoster);
 
-        // Lógica de expansión de la sinopsis
         if (currentMovie.getOverview() != null && !currentMovie.getOverview().isEmpty()) {
             txtOverview.setText(currentMovie.getOverview());
             txtOverview.setMaxLines(Integer.MAX_VALUE);
@@ -210,7 +208,6 @@ public class MovieDetailActivity extends AppCompatActivity {
             }
         });
 
-        // Configuración del visor de imagen completa
         imgPoster.setOnClickListener(v -> {
             Glide.with(this).load(currentMovie.getFullPosterUrl()).into(imgFullScreen);
             overlayContainer.setAlpha(0f);
@@ -229,19 +226,16 @@ public class MovieDetailActivity extends AppCompatActivity {
             }
         });
 
-        // Carga de datos
         cargarCreditosPelicula(currentMovie.getId());
         configurarBotonesAccion(currentMovie);
 
         obtenerDetallesCompletos();
 
-        // Configuración del módulo de reseñas
         recyclerReviews.setLayoutManager(new LinearLayoutManager(this));
         reviewsAdapter = new ReviewsAdapter(this);
         recyclerReviews.setAdapter(reviewsAdapter);
         reviewsRef = FirebaseDatabase.getInstance().getReference("reviews").child(String.valueOf(currentMovie.getId()));
 
-        // Gestión de visibilidad de contenedores según la pestaña seleccionada
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
@@ -257,7 +251,6 @@ public class MovieDetailActivity extends AppCompatActivity {
                     layoutRelatedContainer.setVisibility(View.VISIBLE);
                 }
 
-                // Animación de despazamiento hasta el final de la pantalla al pulsar en un pestaña
                 nestedScrollView.post(() -> {
                     View lastChild = nestedScrollView.getChildAt(0);
                     int bottom = lastChild.getBottom() + nestedScrollView.getPaddingBottom();
@@ -353,7 +346,6 @@ public class MovieDetailActivity extends AppCompatActivity {
 
         boolean addedContent = false;
 
-        // Mostrar Secuela (Siguiente en la lista)
         if (currentIndex < parts.size() - 1) {
             Movie secuela = parts.get(currentIndex + 1);
             if (esPeliculaValidaParaMostrar(secuela)) {
@@ -362,7 +354,6 @@ public class MovieDetailActivity extends AppCompatActivity {
             }
         }
 
-        // Mostrar Precuela (Anterior en la lista)
         if (currentIndex > 0) {
             Movie precuela = parts.get(currentIndex - 1);
             if (esPeliculaValidaParaMostrar(precuela)) {
@@ -371,7 +362,6 @@ public class MovieDetailActivity extends AppCompatActivity {
             }
         }
 
-        // Añadir pestaña si se encontró contenido relevante
         if (addedContent) {
             if (tabLayout.getTabCount() < 3) {
                 tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.related)));
@@ -592,11 +582,11 @@ public class MovieDetailActivity extends AppCompatActivity {
                         Toast.makeText(this, R.string.review_saved, Toast.LENGTH_SHORT).show();
                         dialog.dismiss();
 
-                        DatabaseReference watchedRef = FirebaseDatabase.getInstance().getReference("users").child(uid).child("lists").child(getString(R.string.watched)).child(String.valueOf(currentMovie.getId()));
+                        DatabaseReference watchedRef = FirebaseDatabase.getInstance().getReference("users").child(uid).child("lists").child("Watched").child(String.valueOf(currentMovie.getId()));
                         currentMovie.setTimestampAdded(System.currentTimeMillis());
                         watchedRef.setValue(currentMovie).addOnSuccessListener(v -> {
                             actualizarIcono(btnWatched, true, R.drawable.ic_eye, R.drawable.ic_eye_filled, R.color.green);
-                            DatabaseReference watchlistRef = FirebaseDatabase.getInstance().getReference("users").child(uid).child("lists").child(getString(R.string.watchlist)).child(String.valueOf(currentMovie.getId()));
+                            DatabaseReference watchlistRef = FirebaseDatabase.getInstance().getReference("users").child(uid).child("lists").child("Watchlist").child(String.valueOf(currentMovie.getId()));
                             watchlistRef.removeValue().addOnSuccessListener(v2 -> actualizarIcono(btnWatchlist, false, R.drawable.ic_clock, R.drawable.ic_clock_filled, R.color.blue));
                         });
                     });
@@ -671,12 +661,12 @@ public class MovieDetailActivity extends AppCompatActivity {
         TooltipCompat.setTooltipText(btnWatched, getString(R.string.watched));
         TooltipCompat.setTooltipText(btnWatchlist, getString(R.string.watchlist));
         TooltipCompat.setTooltipText(btnOtherLists, getString(R.string.my_lists));
-        checkMovieInList(getString(R.string.favorites), movie.getId(), exists -> actualizarIcono(btnFav, exists, R.drawable.ic_heart, R.drawable.ic_heart_filled, R.color.dark_purple));
-        checkMovieInList(getString(R.string.watched), movie.getId(), exists -> actualizarIcono(btnWatched, exists, R.drawable.ic_eye, R.drawable.ic_eye_filled, R.color.green));
-        checkMovieInList(getString(R.string.watchlist), movie.getId(), exists -> actualizarIcono(btnWatchlist, exists, R.drawable.ic_clock, R.drawable.ic_clock_filled, R.color.blue));
-        btnFav.setOnClickListener(v -> toggleMovieInList(getString(R.string.favorites), movie, btnFav, R.drawable.ic_heart, R.drawable.ic_heart_filled, R.color.dark_purple));
-        btnWatched.setOnClickListener(v -> toggleMovieInList(getString(R.string.watched), movie, btnWatched, R.drawable.ic_eye, R.drawable.ic_eye_filled, R.color.green));
-        btnWatchlist.setOnClickListener(v -> toggleMovieInList(getString(R.string.watchlist), movie, btnWatchlist, R.drawable.ic_clock, R.drawable.ic_clock_filled, R.color.blue));
+        checkMovieInList("Favorites", movie.getId(), exists -> actualizarIcono(btnFav, exists, R.drawable.ic_heart, R.drawable.ic_heart_filled, R.color.dark_purple));
+        checkMovieInList("Watched", movie.getId(), exists -> actualizarIcono(btnWatched, exists, R.drawable.ic_eye, R.drawable.ic_eye_filled, R.color.green));
+        checkMovieInList("Watchlist", movie.getId(), exists -> actualizarIcono(btnWatchlist, exists, R.drawable.ic_clock, R.drawable.ic_clock_filled, R.color.blue));
+        btnFav.setOnClickListener(v -> toggleMovieInList("Favorites", movie, btnFav, R.drawable.ic_heart, R.drawable.ic_heart_filled, R.color.dark_purple));
+        btnWatched.setOnClickListener(v -> toggleMovieInList("Watched", movie, btnWatched, R.drawable.ic_eye, R.drawable.ic_eye_filled, R.color.green));
+        btnWatchlist.setOnClickListener(v -> toggleMovieInList("Watchlist", movie, btnWatchlist, R.drawable.ic_clock, R.drawable.ic_clock_filled, R.color.blue));
         btnOtherLists.setOnClickListener(v -> mostrarDialogoOtrasListas(movie));
     }
 
@@ -739,8 +729,8 @@ public class MovieDetailActivity extends AppCompatActivity {
             movie.setTimestampAdded(System.currentTimeMillis());
             movieRef.setValue(movie).addOnSuccessListener(v -> {
                 actualizarIcono(img, true, resNormal, resFilled, colorResId);
-                if (listName.equals(getString(R.string.watched))) {
-                    DatabaseReference watchlistRef = FirebaseDatabase.getInstance().getReference("users").child(uid).child("lists").child(getString(R.string.watchlist)).child(String.valueOf(movie.getId()));
+                if (listName.equals("Watched")) {
+                    DatabaseReference watchlistRef = FirebaseDatabase.getInstance().getReference("users").child(uid).child("lists").child("Watchlist").child(String.valueOf(movie.getId()));
                     watchlistRef.removeValue().addOnSuccessListener(v2 -> actualizarIcono(btnWatchlist, false, R.drawable.ic_clock, R.drawable.ic_clock_filled, R.color.blue));
                 }
             });
@@ -761,7 +751,7 @@ public class MovieDetailActivity extends AppCompatActivity {
         EditText etNewList = dialogView.findViewById(R.id.et_new_list_quick);
         AlertDialog dialog = new AlertDialog.Builder(this).setView(dialogView).create();
         userListsRef.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override public void onDataChange(@NonNull DataSnapshot snapshot) { containerLists.removeAllViews(); for (DataSnapshot data : snapshot.getChildren()) { String listName = data.getKey(); if (listName != null && !listName.equals(getString(R.string.favorites)) && !listName.equals(getString(R.string.watched)) && !listName.equals(getString(R.string.watchlist))) agregarCheckBoxLista(containerLists, listName, movie, userListsRef); } }
+            @Override public void onDataChange(@NonNull DataSnapshot snapshot) { containerLists.removeAllViews(); for (DataSnapshot data : snapshot.getChildren()) { String listName = data.getKey(); if (listName != null && !listName.equals("Favorites") && !listName.equals("Watched") && !listName.equals("Watchlist")) agregarCheckBoxLista(containerLists, listName, movie, userListsRef); } }
             @Override public void onCancelled(@NonNull DatabaseError error) {}
         });
         etNewList.setOnEditorActionListener((v, actionId, event) -> { if (actionId == EditorInfo.IME_ACTION_DONE) { crearListaDesdeInput(etNewList, containerLists, movie, userListsRef); InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE); if (imm != null) imm.hideSoftInputFromWindow(etNewList.getWindowToken(), 0); etNewList.clearFocus(); return true; } return false; });

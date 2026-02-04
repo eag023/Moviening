@@ -95,10 +95,10 @@ public class ProfileFragment extends Fragment {
 
         // Inicializamos la lista con las fijas para que se vean de inmediato
         allLists = new ArrayList<>();
-        allLists.add(getString(R.string.favorites));
-        allLists.add(getString(R.string.watched));
-        allLists.add(getString(R.string.watchlist));
-        allLists.add(getString(R.string.reviews));
+        allLists.add("Favorites");
+        allLists.add("Watched");
+        allLists.add("Watchlist");
+        allLists.add("Reviews");
 
         if (mAuth.getCurrentUser() != null) {
             mListsDbRef = FirebaseDatabase.getInstance().getReference("users")
@@ -164,26 +164,10 @@ public class ProfileFragment extends Fragment {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 allLists.clear();
 
-                String keyFav = "Favorites";
-                if (snapshot.hasChild("Favoritas")) keyFav = "Favoritas";
-                else if (snapshot.hasChild("Favorites")) keyFav = "Favorites";
-
-                String keyWatched = "Watched";
-                if (snapshot.hasChild("Vistas")) keyWatched = "Vistas";
-                else if (snapshot.hasChild("Watched")) keyWatched = "Watched";
-
-                String keyWatchlist = "Watchlist";
-                if (snapshot.hasChild("Pendientes")) keyWatchlist = "Pendientes";
-                else if (snapshot.hasChild("Watchlist")) keyWatchlist = "Watchlist";
-
-                String keyReviews = "Reviews";
-                if (snapshot.hasChild("Reseñas")) keyReviews = "Reseñas";
-                else if (snapshot.hasChild("Reviews")) keyReviews = "Reviews";
-
-                allLists.add(keyFav);
-                allLists.add(keyWatched);
-                allLists.add(keyWatchlist);
-                allLists.add(keyReviews);
+                allLists.add("Favorites");
+                allLists.add("Watched");
+                allLists.add("Watchlist");
+                allLists.add("Reviews");
 
                 for (DataSnapshot data : snapshot.getChildren()) {
                     String key = data.getKey();
@@ -561,7 +545,7 @@ public class ProfileFragment extends Fragment {
                 Context context = h.itemView.getContext();
                 String displayTitle = listName;
 
-                if (listName.equals("Reviews") || listName.equals("Reseñas") || listName.equals(context.getString(R.string.reviews))) {
+                if (listName.equals("Reviews")) {
                     h.txtListName.setText(context.getString(R.string.reviews));
                     h.imgIcon.setImageResource(R.drawable.ic_star_outline);
                     h.imgIcon.setColorFilter(ContextCompat.getColor(context, R.color.purple), PorterDuff.Mode.SRC_IN);
@@ -575,23 +559,19 @@ public class ProfileFragment extends Fragment {
                     return;
                 }
 
-                boolean isFav = listName.equals("Favorites") || listName.equals("Favoritas") || listName.equals(context.getString(R.string.favorites));
-                boolean isWatched = listName.equals("Watched") || listName.equals("Vistas") || listName.equals(context.getString(R.string.watched));
-                boolean isWatchlist = listName.equals("Watchlist") || listName.equals("Pendientes") || listName.equals(context.getString(R.string.watchlist));
-
-                if (isFav) {
+                if (listName.equals("Favorites")) {
                     h.txtListName.setText(context.getString(R.string.favorites));
                     displayTitle = context.getString(R.string.favorites);
                     h.imgIcon.setImageResource(R.drawable.ic_heart);
                     h.btnDelete.setVisibility(View.GONE);
                     h.itemView.setOnLongClickListener(null);
-                } else if (isWatched) {
+                } else if (listName.equals("Watched")) {
                     h.txtListName.setText(context.getString(R.string.watched));
                     displayTitle = context.getString(R.string.watched);
                     h.imgIcon.setImageResource(R.drawable.ic_eye);
                     h.btnDelete.setVisibility(View.GONE);
                     h.itemView.setOnLongClickListener(null);
-                } else if (isWatchlist) {
+                } else if (listName.equals("Watchlist")) {
                     h.txtListName.setText(context.getString(R.string.watchlist));
                     displayTitle = context.getString(R.string.watchlist);
                     h.imgIcon.setImageResource(R.drawable.ic_clock);
@@ -671,14 +651,10 @@ public class ProfileFragment extends Fragment {
      * Esto evita duplicados en la sección de listas personalizadas.
      */
     private boolean esListaFija(String nombre) {
-        // Comprobamos nombres en Inglés, Español y la configuración actual
-        return nombre.equals("Favorites") || nombre.equals("Favoritas") ||
-                nombre.equals("Watched") || nombre.equals("Vistas") ||
-                nombre.equals("Watchlist") || nombre.equals("Pendientes") ||
-                nombre.equals("Reviews") || nombre.equals("Reseñas") ||
-                nombre.equals(getString(R.string.favorites)) ||
-                nombre.equals(getString(R.string.watched)) ||
-                nombre.equals(getString(R.string.watchlist));
+        return nombre.equals("Favorites") ||
+                nombre.equals("Watched") ||
+                nombre.equals("Watchlist") ||
+                nombre.equals("Reviews");
     }
 
     private void cerrarOverlay() { overlayContainer.animate().alpha(0f).setDuration(300).withEndAction(() -> overlayContainer.setVisibility(View.GONE)).start(); }
