@@ -86,7 +86,7 @@
     <string name="error_profile_picture_updating">Error updating profile picture</string>
     <string name="profile_picture_deleted">Profile picture deleted</string>
 
-    <string name="favorite">Favorites</string>
+    <string name="favorites">Favorites</string>
     <string name="watched">Watched</string>
     <string name="watchlist">Watchlist</string>
     <string name="user">User</string>

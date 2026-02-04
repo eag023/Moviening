@@ -128,7 +128,7 @@ public class PersonMoviesActivity extends AppCompatActivity {
     }
 
     /**
-     * Muestra un popup con acciones rápidas para una película (Favoritos, Vistos, Watchlist).
+     * Muestra un popup con acciones rápidas para una película (Favoritas, Vistos, Watchlist).
      * @param movie Objeto película seleccionado.
      * @param anchorView Vista que sirve de ancla para posicionar el popup.
      */
@@ -150,11 +150,11 @@ public class PersonMoviesActivity extends AppCompatActivity {
 
         txtTitle.setText(movie.getTitle() != null ? movie.getTitle() : movie.getName());
 
-        checkMovieInList(getString(R.string.favorite), movie.getId(), exists -> actualizarIcono(btnFav, exists, R.drawable.ic_heart, R.drawable.ic_heart_filled, R.color.dark_purple));
+        checkMovieInList(getString(R.string.favorites), movie.getId(), exists -> actualizarIcono(btnFav, exists, R.drawable.ic_heart, R.drawable.ic_heart_filled, R.color.dark_purple));
         checkMovieInList(getString(R.string.watched), movie.getId(), exists -> actualizarIcono(btnWatched, exists, R.drawable.ic_eye, R.drawable.ic_eye_filled, R.color.green));
         checkMovieInList(getString(R.string.watchlist), movie.getId(), exists -> actualizarIcono(btnWatchlist, exists, R.drawable.ic_clock, R.drawable.ic_clock_filled, R.color.blue));
 
-        btnFav.setOnClickListener(v -> toggleMovieInList(getString(R.string.favorite), movie, btnFav, R.drawable.ic_heart, R.drawable.ic_heart_filled, R.color.dark_purple));
+        btnFav.setOnClickListener(v -> toggleMovieInList(getString(R.string.favorites), movie, btnFav, R.drawable.ic_heart, R.drawable.ic_heart_filled, R.color.dark_purple));
         btnWatched.setOnClickListener(v -> toggleMovieInList(getString(R.string.watched), movie, btnWatched, R.drawable.ic_eye, R.drawable.ic_eye_filled, R.color.green));
         btnWatchlist.setOnClickListener(v -> toggleMovieInList(getString(R.string.watchlist), movie, btnWatchlist, R.drawable.ic_clock, R.drawable.ic_clock_filled, R.color.blue));
 
@@ -272,7 +272,7 @@ public class PersonMoviesActivity extends AppCompatActivity {
                 for (DataSnapshot data : snapshot.getChildren()) {
                     String listName = data.getKey();
                     if (listName != null &&
-                            !listName.equals(getString(R.string.favorite)) &&
+                            !listName.equals(getString(R.string.favorites)) &&
                             !listName.equals(getString(R.string.watched)) &&
                             !listName.equals(getString(R.string.watchlist))) {
 

@@ -662,19 +662,19 @@ public class MovieDetailActivity extends AppCompatActivity {
     }
 
     /**
-     * Configura los botones de acción rápida (Favoritos, Vistas, Pendientes) y sus tooltips.
+     * Configura los botones de acción rápida (Favoritas, Vistas, Pendientes) y sus tooltips.
      * Verifica inicialmente si la película ya pertenece a alguna de estas listas.
      * @param movie La película actual.
      */
     private void configurarBotonesAccion(Movie movie) {
-        TooltipCompat.setTooltipText(btnFav, getString(R.string.favorite));
+        TooltipCompat.setTooltipText(btnFav, getString(R.string.favorites));
         TooltipCompat.setTooltipText(btnWatched, getString(R.string.watched));
         TooltipCompat.setTooltipText(btnWatchlist, getString(R.string.watchlist));
         TooltipCompat.setTooltipText(btnOtherLists, getString(R.string.my_lists));
-        checkMovieInList(getString(R.string.favorite), movie.getId(), exists -> actualizarIcono(btnFav, exists, R.drawable.ic_heart, R.drawable.ic_heart_filled, R.color.dark_purple));
+        checkMovieInList(getString(R.string.favorites), movie.getId(), exists -> actualizarIcono(btnFav, exists, R.drawable.ic_heart, R.drawable.ic_heart_filled, R.color.dark_purple));
         checkMovieInList(getString(R.string.watched), movie.getId(), exists -> actualizarIcono(btnWatched, exists, R.drawable.ic_eye, R.drawable.ic_eye_filled, R.color.green));
         checkMovieInList(getString(R.string.watchlist), movie.getId(), exists -> actualizarIcono(btnWatchlist, exists, R.drawable.ic_clock, R.drawable.ic_clock_filled, R.color.blue));
-        btnFav.setOnClickListener(v -> toggleMovieInList(getString(R.string.favorite), movie, btnFav, R.drawable.ic_heart, R.drawable.ic_heart_filled, R.color.dark_purple));
+        btnFav.setOnClickListener(v -> toggleMovieInList(getString(R.string.favorites), movie, btnFav, R.drawable.ic_heart, R.drawable.ic_heart_filled, R.color.dark_purple));
         btnWatched.setOnClickListener(v -> toggleMovieInList(getString(R.string.watched), movie, btnWatched, R.drawable.ic_eye, R.drawable.ic_eye_filled, R.color.green));
         btnWatchlist.setOnClickListener(v -> toggleMovieInList(getString(R.string.watchlist), movie, btnWatchlist, R.drawable.ic_clock, R.drawable.ic_clock_filled, R.color.blue));
         btnOtherLists.setOnClickListener(v -> mostrarDialogoOtrasListas(movie));
@@ -761,7 +761,7 @@ public class MovieDetailActivity extends AppCompatActivity {
         EditText etNewList = dialogView.findViewById(R.id.et_new_list_quick);
         AlertDialog dialog = new AlertDialog.Builder(this).setView(dialogView).create();
         userListsRef.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override public void onDataChange(@NonNull DataSnapshot snapshot) { containerLists.removeAllViews(); for (DataSnapshot data : snapshot.getChildren()) { String listName = data.getKey(); if (listName != null && !listName.equals(getString(R.string.favorite)) && !listName.equals(getString(R.string.watched)) && !listName.equals(getString(R.string.watchlist))) agregarCheckBoxLista(containerLists, listName, movie, userListsRef); } }
+            @Override public void onDataChange(@NonNull DataSnapshot snapshot) { containerLists.removeAllViews(); for (DataSnapshot data : snapshot.getChildren()) { String listName = data.getKey(); if (listName != null && !listName.equals(getString(R.string.favorites)) && !listName.equals(getString(R.string.watched)) && !listName.equals(getString(R.string.watchlist))) agregarCheckBoxLista(containerLists, listName, movie, userListsRef); } }
             @Override public void onCancelled(@NonNull DatabaseError error) {}
         });
         etNewList.setOnEditorActionListener((v, actionId, event) -> { if (actionId == EditorInfo.IME_ACTION_DONE) { crearListaDesdeInput(etNewList, containerLists, movie, userListsRef); InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE); if (imm != null) imm.hideSoftInputFromWindow(etNewList.getWindowToken(), 0); etNewList.clearFocus(); return true; } return false; });

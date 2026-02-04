@@ -85,7 +85,7 @@
     <string name="error_profile_picture_updating">Error al actualizar la foto de perfil</string>
     <string name="profile_picture_deleted">Foto de perfil eliminada</string>
 
-    <string name="favorite">Favoritas</string>
+    <string name="favorites">Favoritas</string>
     <string name="watched">Vistas</string>
     <string name="watchlist">Pendientes</string>
     <string name="user">Usuario</string>

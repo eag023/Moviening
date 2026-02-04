@@ -31,7 +31,7 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * Actividad que visualiza una lista de películas o personas guardadas por el usuario.
+ * Actividad que visualiza una lista de películas guardadas por el usuario.
  * Permite filtrar, ordenar y eliminar elementos de la base de datos de Firebase.
  */
 public class MovieListActivity extends AppCompatActivity {

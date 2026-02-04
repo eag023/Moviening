@@ -235,17 +235,17 @@ public class SearchFragment extends Fragment {
 
         txtTitle.setText(movie.getTitle() != null ? movie.getTitle() : movie.getName());
 
-        TooltipCompat.setTooltipText(btnFav, getString(R.string.favorite));
+        TooltipCompat.setTooltipText(btnFav, getString(R.string.favorites));
         TooltipCompat.setTooltipText(btnWatched, getString(R.string.watched));
         TooltipCompat.setTooltipText(btnWatchlist, getString(R.string.watchlist));
 
         // Comprobación asíncrona del estado inicial en Firebase para colorear iconos
-        checkMovieInList(getString(R.string.favorite), movie.getId(), exists -> actualizarIcono(btnFav, exists, R.drawable.ic_heart, R.drawable.ic_heart_filled, R.color.dark_purple));
+        checkMovieInList(getString(R.string.favorites), movie.getId(), exists -> actualizarIcono(btnFav, exists, R.drawable.ic_heart, R.drawable.ic_heart_filled, R.color.dark_purple));
         checkMovieInList(getString(R.string.watched), movie.getId(), exists -> actualizarIcono(btnWatched, exists, R.drawable.ic_eye, R.drawable.ic_eye_filled, R.color.green));
         checkMovieInList(getString(R.string.watchlist), movie.getId(), exists -> actualizarIcono(btnWatchlist, exists, R.drawable.ic_clock, R.drawable.ic_clock_filled, R.color.blue));
 
         // Listeners para modificar el estado al hacer clic
-        btnFav.setOnClickListener(v -> toggleMovieInList(getString(R.string.favorite), movie, btnFav, R.drawable.ic_heart, R.drawable.ic_heart_filled, R.color.dark_purple));
+        btnFav.setOnClickListener(v -> toggleMovieInList(getString(R.string.favorites), movie, btnFav, R.drawable.ic_heart, R.drawable.ic_heart_filled, R.color.dark_purple));
         btnWatched.setOnClickListener(v -> toggleMovieInList(getString(R.string.watched), movie, btnWatched, R.drawable.ic_eye, R.drawable.ic_eye_filled, R.color.green));
         btnWatchlist.setOnClickListener(v -> toggleMovieInList(getString(R.string.watchlist), movie, btnWatchlist, R.drawable.ic_clock, R.drawable.ic_clock_filled, R.color.blue));
 
@@ -362,7 +362,7 @@ public class SearchFragment extends Fragment {
                     String listName = data.getKey();
                     // Excluir listas del sistema
                     if (listName != null &&
-                            !listName.equals(getString(R.string.favorite)) &&
+                            !listName.equals(getString(R.string.favorites)) &&
                             !listName.equals(getString(R.string.watched)) &&
                             !listName.equals(getString(R.string.watchlist))) {
 
