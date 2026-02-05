@@ -212,8 +212,7 @@ public class MovieListActivity extends AppCompatActivity {
      * y descripciones se muestren en el idioma actual del dispositivo.
      */
     private void actualizarIdiomaVisual() {
-        String language = java.util.Locale.getDefault().getLanguage();
-        String apiLanguage = language.equals("es") ? "es-ES" : "en-US";
+        String apiLanguage = LanguageUtils.getApiLanguage();
 
         for (Movie movieLocal : originalList) {
             com.amgoapps.moviening.api.TmdbClient.getApiService().getMovieDetails(movieLocal.getId(), API_KEY, apiLanguage)
@@ -222,6 +221,7 @@ public class MovieListActivity extends AppCompatActivity {
                         public void onResponse(retrofit2.Call<Movie> call, retrofit2.Response<Movie> response) {
                             if (response.isSuccessful() && response.body() != null) {
                                 Movie movieApi = response.body();
+
                                 movieLocal.setTitle(movieApi.getTitle());
                                 movieLocal.setPosterPath(movieApi.getPosterPath());
                                 movieLocal.setOverview(movieApi.getOverview());
@@ -232,7 +232,10 @@ public class MovieListActivity extends AppCompatActivity {
                                 }
                             }
                         }
-                        @Override public void onFailure(retrofit2.Call<Movie> call, Throwable t) {}
+
+                        @Override
+                        public void onFailure(retrofit2.Call<Movie> call, Throwable t) {
+                        }
                     });
         }
     }

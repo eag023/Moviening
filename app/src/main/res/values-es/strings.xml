@@ -177,6 +177,8 @@
     <string name="horror">Terror</string>
     <string name="comedy">Comedia</string>
     <string name="mistery">Misterio</string>
+    <string name="thriller">Suspense</string>
+    <string name="crime">Crimen</string>
     <string name="animation">Animación</string>
     <string name="musical">Musical</string>
     <string name="drama">Drama</string>

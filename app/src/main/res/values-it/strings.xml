@@ -1,0 +1,244 @@
+<resources>
+    <string name="app_name">Moviening</string>
+    <string name="default_web_client_id">721439211450-5jilc9ebaro6sn8st661h1mnjbfnmj5k.apps.googleusercontent.com</string>
+    <string name="title_recommend">Suggerimenti</string>
+    <string name="title_search">Cerca</string>
+    <string name="title_profile">Profilo</string>
+
+    <string name="search_hint">Film, regista o attore</string>
+    <string name="popular">FILM POPOLARI</string>
+    <string name="filter">Filtra risultati</string>
+
+    <string name="date_added">Data aggiunta</string>
+    <string name="name">Nome</string>
+    <string name="year">Anno</string>
+    <string name="rate">Valutazione</string>
+
+    <string name="no_account">Nessun account Google associato trovato</string>
+
+    <string name="error_search">Errore durante la ricerca</string>
+    <string name="error_conexion">Errore di connessione</string>
+
+    <string name="show_more">Mostra altro</string>
+    <string name="show_less">Mostra meno</string>
+    <string name="b_acting">Film in cui appare</string>
+    <string name="b_directing">Film che dirige</string>
+    <string name="l_acting">appare in:</string>
+    <string name="l_directing">dirige:</string>
+
+    <string name="director">Regista</string>
+    <string name="cast">Cast</string>
+
+    <string name="no_bio">Biografia non disponibile.</string>
+    <string name="no_synopsis">Sinossi non disponibile.</string>
+    <string name="synopsis">Sinossi</string>
+
+    <string name="welcome">Benvenuto su MOVIENING!</string>
+    <string name="create_acount">Crea Account</string>
+    <string name="email">E-mail</string>
+    <string name="error_email">Non esiste alcun account con questa e-mail</string>
+    <string name="error_username">Il nome utente non può essere vuoto</string>
+    <string name="error_format_email">Il formato dell\'e-mail non è valido</string>
+    <string name="password">Password</string>
+    <string name="password_confirmation">Conferma password</string>
+    <string name="error_password">La password deve avere almeno 6 caratteri</string>
+    <string name="error_password_matching">Le password non corrispondono</string>
+    <string name="field_empty">Questo campo non può essere vuoto</string>
+
+    <string name="login">Accedi</string>
+    <string name="login_google">Accedi con Google</string>
+    <string name="error_login">E-mail o password non corrette</string>
+    <string name="empty_login">Compila tutti i campi</string>
+
+    <string name="signin">Registrati</string>
+    <string name="signin_google">Registrati con Google</string>
+    <string name="signin_change">Non hai un account? Registrati qui</string>
+    <string name="login_change">Hai già un account? Accedi</string>
+    <string name="username">Nome utente</string>
+    <string name="write_username">Scrivi un nome utente</string>
+    <string name="username_taken">Questo nome utente è già in uso</string>
+    <string name="email_taken">Questa e-mail è già in uso</string>
+    <string name="email_empty">Scrivi un\'e-mail</string>
+    <string name="error_email_taken">Questa e-mail è già in uso</string>
+
+    <string name="loggingin">Accesso in corso</string>
+    <string name="acount_created">Account creato con successo</string>
+    <string name="error_google_loging">Errore durante l\'accesso con Google</string>
+    <string name="error_google_signin">Fallita registrazione Google:</string>
+    <string name="google_acount_created">Account Google creato con successo</string>
+    <string name="error_google_authentication">Errore autenticazione Google</string>
+    <string name="account_exists">Questo account esiste già</string>
+    <string name="account_no_exists">Questo account non esiste</string>
+    <string name="account_without_google">Questo account non è stato creato con Google</string>
+
+    <string name="profile_picture_updated">Foto aggiornata</string>
+    <string name="upload_picture">Carica immagine</string>
+    <string name="error_photo">Errore nel caricamento dell\'immagine</string>
+
+    <string name="my_profile">Il mio Profilo ▼</string>
+    <string name="logout">Esci</string>
+    <string name="new_profile_picture">Carica foto profilo</string>
+    <string name="change_username">Cambia nome utente</string>
+    <string name="new_name">Nuovo nome</string>
+    <string name="username_updated">Nome utente aggiornato</string>
+    <string name="error_username_updating">Errore durante l\'aggiornamento del nome utente</string>
+    <string name="error_profile_picture_updating">Errore durante l\'aggiornamento della foto profilo</string>
+    <string name="profile_picture_deleted">Foto profilo eliminata</string>
+
+    <string name="favorites">Preferiti</string>
+    <string name="watched">Visti</string>
+    <string name="watchlist">Da vedere</string>
+    <string name="user">Utente</string>
+
+    <string name="save">Salva</string>
+    <string name="create">Crea</string>
+    <string name="cancel">Annulla</string>
+    <string name="delete">Elimina</string>
+    <string name="delete_list">Eliminare</string>
+    <string name="yes">Sì</string>
+    <string name="no">No</string>
+    <string name="edit">Modifica</string>
+
+    <string name="new_list">Nuova lista</string>
+    <string name="et_new_list">Nuova lista...</string>
+    <string name="name_list">Nome della lista</string>
+    <string name="name_list_reserved">Nome riservato</string>
+
+    <string name="add_other_list">Aggiungi a un\'altra lista...</string>
+    <string name="add_to">Aggiungi a...</string>
+    <string name="deleted_from">Eliminato da </string>
+    <string name="added_to">Aggiunto a </string>
+    <string name="no_lists">Non hai liste personalizzate</string>
+    <string name="my_lists">Le mie liste</string>
+    <string name="no_profile_picture">Nessuna foto profilo</string>
+
+    <string name="actor">Attore</string>
+    <string name="actress">Attrice</string>
+    <string name="male_director">Regista</string>
+    <string name="female_director">Regista</string>
+
+    <string name="no_movies">Non hai ancora aggiunto film a questa lista</string>
+    <string name="no_my_reviews">Non hai ancora scritto nessuna recensione</string>
+    <string name="error_loading">Errore durante il caricamento</string>
+
+    <string name="crew">Troupe</string>
+    <string name="reviews">Recensioni</string>
+    <string name="related">Correlati</string>
+
+    <string name="users_rate">Media utenti</string>
+    <string name="no_reviews">Non c\'è ancora nessuna recensione</string>
+    <string name="no_rate">Nessun utente ha ancora valutato questo film</string>
+
+    <string name="your_review">La tua recensione</string>
+    <string name="txt_review">Scrivi la tua recensione</string>
+    <string name="review_saved">Recensione salvata</string>
+    <string name="review_deleted">Recensione eliminata</string>
+    <string name="update">Aggiorna</string>
+    <string name="anonymous">Anonimo</string>
+    <string name="delete_review">Elimina recensione</string>
+    <string name="r_u_sure">Sei sicuro?</string>
+    <string name="invalid">Non valido</string>
+    <string name="set_rate">Inserisci voto</string>
+    <string name="no_login">Accedi per valutare</string>
+    <string name="edit_review">Modifica recensione</string>
+    <string name="bt_rate">Vota</string>
+    <string name="save_error">Errore nel salvataggio:</string>
+
+    <string name="coming_soon">Prossimamente</string>
+
+    <string name="secuel">Ha un sequel:</string>
+    <string name="precuel">Ha un prequel:</string>
+
+    <string name="credits">Dati forniti da The Movie Database (TMDB)</string>
+
+    <string name="poster">Locandina</string>
+    <string name="no_poster">Film\nsenza locandina</string>
+    <string name="no_poster_short">Senza\nlocandina</string>
+    <string name="no_person_picture">Senza\nimmagine</string>
+    <string name="no_title">Senza titolo</string>
+    <string name="no_genres">Senza generi</string>
+
+    <string name="logout_confirm">Sei sicuro di voler uscire?</string>
+
+    <string name="no_movies_found">Non siamo riusciti a trovare film</string>
+    <string name="movies_found">Ecco i tuoi film!</string>
+    <string name="random">Casuale</string>
+    <string name="start">Inizia</string>
+    <string name="done">Finito</string>
+    <string name="recomend_hint">Non sai cosa guardare? Ti aiuto io!</string>
+    <string name="recomend">SUGGERITORE</string>
+    <string name="movie_of_the_day">Film del giorno:</string>
+
+    <string name="genre">Che genere ti va di vedere oggi?</string>
+    <string name="action">Azione</string>
+    <string name="adventure">Avventura</string>
+    <string name="sci_fi">Fantascienza</string>
+    <string name="fantasy">Fantasy</string>
+    <string name="horror">Horror</string>
+    <string name="comedy">Commedia</string>
+    <string name="mistery">Mistero</string>
+    <string name="thriller">Thriller</string>
+    <string name="crime">Crime</string>
+    <string name="animation">Animazione</string>
+    <string name="musical">Musical</string>
+    <string name="drama">Dramma</string>
+    <string name="romance">Romance</string>
+    <string name="history">Storia</string>
+    <string name="war">Guerra</string>
+    <string name="western">Western</string>
+    <string name="random_genre">Sorprendimi</string>
+
+    <string name="duration">Quanto vuoi che duri?</string>
+    <string name="short_duration">Qualcosa di breve</string>
+    <string name="normal_duration">Normale</string>
+    <string name="random_duration">È indifferente</string>
+
+    <string name="country">Di che paese lo preferisci?</string>
+    <string name="spain">Spagna</string>
+    <string name="usa">Stati Uniti</string>
+    <string name="japan">Giappone</string>
+    <string name="corea">Corea</string>
+    <string name="uk">Regno Unito</string>
+    <string name="france">Francia</string>
+    <string name="other_country">Altro paese</string>
+    <string name="random_country">Non ho preferenze</string>
+
+    <string name="decade">Di che anno lo preferisci?</string>
+    <string name="newest">L\'ultimissimo!</string>
+    <string name="some_new">Qualcosa di attuale</string>
+    <string name="some_old">Né troppo vecchio né troppo nuovo</string>
+    <string name="oldest">Un classico per favore!</string>
+    <string name="random_decade">Non importa l\'anno</string>
+
+    <string name="children">Vuoi che sia per bambini?</string>
+    <string name="yes_child">Sì</string>
+    <string name="no_child">No</string>
+    <string name="random_children">Non mi importa</string>
+
+
+    <string name="rate_question">Ti importa della valutazione?</string>
+    <string name="best_rate">Che sia un capolavoro!</string>
+    <string name="normal_rate">Mi accontento di qualcosa di normale</string>
+    <string name="random_rate">Non molto in realtà</string>
+
+    <string name="oops">Ops!</string>
+    <string name="no_results">Non sono riuscito a trovare film</string>
+    <string name="results">Ecco i tuoi film!</string>
+    <string name="searching_movie">Cercando un film per te...</string>
+    <string name="unknown">Sconosciuto</string>
+
+    <string name="filters">Filtri</string>
+
+    <string name="bio">Biografia</string>
+
+    <string name="start_guide">Benvenuto su MOVIENING!\n\nLascia che ti mostri come funzionano le cose qui!</string>
+    <string name="search_guide">RICERCA\n\nIn questa schermata potrai cercare qualsiasi film, regista o attore</string>
+    <string name="recommend_guide">SUGGERITORE\n\nTi consiglierà tre film in base alle tue richieste o lasciando fare completamente al caso. Decidi tu! Potrai anche vedere qual è il film del giorno.</string>
+    <string name="profile_guide">IL TUO PROFILO\n\nQui accederai al tuo profilo. Potrai vedere e cambiare la tua foto, consultare i tuoi film preferiti, visti e da vedere, oltre alle tue recensioni, e creare liste personalizzate.</string>
+    <string name="movie_guide">Se tocchi un film, potrai accedere alle sue informazioni (Cast, valutazione, ecc.), aggiungerlo a una lista e scrivere una recensione. Se tieni premuto apparirà il menu delle azioni rapide.</string>
+    <string name="search_bar_guide">Scrivi nella barra per mostrare le ricerche in tempo reale</string>
+    <string name="filters_guide">Qui puoi ordinare i risultati della tua ricerca</string>
+    <string name="end_guide">Questo è tutto!\nViva il cinema!</string>
+    <string name="touch">Tocca lo schermo per continuare</string>
+    <string name="skip">Salta</string>
+</resources>

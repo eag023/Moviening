@@ -329,21 +329,67 @@ public class ProfileFragment extends Fragment {
     private void actualizarNombreReal(String nuevoNombre, AlertDialog dialog) {
         FirebaseUser user = mAuth.getCurrentUser();
         if (user == null) return;
+
         String nombreAntiguo = user.getDisplayName();
         UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder().setDisplayName(nuevoNombre).build();
+
         user.updateProfile(profileUpdates).addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
-                // Reservar el nuevo nombre y borra el antiguo
+                // Reservar el nuevo nombre y borrar el antiguo
                 mUsernamesDbRef.child(nuevoNombre).setValue(user.getUid());
                 if (nombreAntiguo != null && !nombreAntiguo.isEmpty()) {
                     mUsernamesDbRef.child(nombreAntiguo).removeValue();
                 }
+
+                actualizarNombreEnResenas(nuevoNombre);
+
                 cargarDatosUsuario();
                 Toast.makeText(getContext(), getString(R.string.username_updated), Toast.LENGTH_SHORT).show();
                 dialog.dismiss();
             } else {
                 Toast.makeText(getContext(), getString(R.string.error_username_updating), Toast.LENGTH_SHORT).show();
             }
+        });
+    }
+
+    /**
+     * Recorre la lista de películas 'Vistas' (Watched) del usuario.
+     * Si encuentra una reseña para esa película, actualiza el campo 'username'.
+     */
+    private void actualizarNombreEnResenas(String nuevoNombre) {
+        if (mAuth.getCurrentUser() == null) return;
+        String uid = mAuth.getCurrentUser().getUid();
+
+        DatabaseReference watchedRef = FirebaseDatabase.getInstance()
+                .getReference("users").child(uid).child("lists").child("Watched");
+
+        watchedRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (!snapshot.exists()) return;
+
+                for (DataSnapshot movieSnap : snapshot.getChildren()) {
+                    String movieId = movieSnap.getKey();
+
+                    if (movieId != null) {
+                        DatabaseReference reviewRef = FirebaseDatabase.getInstance()
+                                .getReference("reviews").child(movieId).child(uid);
+
+                        reviewRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot reviewSnap) {
+                                if (reviewSnap.exists()) {
+                                    reviewRef.child("username").setValue(nuevoNombre);
+                                }
+                            }
+                            @Override public void onCancelled(@NonNull DatabaseError error) {}
+                        });
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {}
         });
     }
 

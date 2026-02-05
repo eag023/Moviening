@@ -424,6 +424,8 @@ public class RecomendFragment extends Fragment {
         agregarBotonOpcion(getString(R.string.horror), () -> selectedGenre = "27");
         agregarBotonOpcion(getString(R.string.comedy), () -> selectedGenre = "35");
         agregarBotonOpcion(getString(R.string.mistery), () -> selectedGenre = "9648");
+        agregarBotonOpcion(getString(R.string.thriller), () -> selectedGenre = "53");
+        agregarBotonOpcion(getString(R.string.crime), () -> selectedGenre = "80");
         agregarBotonOpcion(getString(R.string.animation), () -> selectedGenre = "16");
         agregarBotonOpcion(getString(R.string.musical), () -> selectedGenre = "10402");
         agregarBotonOpcion(getString(R.string.drama), () -> selectedGenre = "18");
