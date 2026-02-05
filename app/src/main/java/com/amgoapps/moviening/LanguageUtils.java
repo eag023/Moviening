@@ -1,5 +1,7 @@
 package com.amgoapps.moviening;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Locale;
 
 /**
@@ -22,9 +24,8 @@ public class LanguageUtils {
      * <li>Italiano (retorna {@code "it-IT"})</li>
      * <li>Alemán (retorna {@code "de-DE"})</li>
      * <li>Francés (retorna {@code "fr-FR"})</li>
+     * <li>Inglés ({@code "en-US"} o {@code "en-GB"} según el país)</li>
      * </ul>
-     * <p>Si el idioma del dispositivo no es ninguno de los anteriores, se utiliza
-     * Inglés ({@code "en-US"}) como idioma de respaldo (fallback).</p>
      *
      * @return Un {@code String} que representa el código de idioma-país (ej. "es-ES").
      */
@@ -34,25 +35,26 @@ public class LanguageUtils {
 
         switch (language) {
             case "es":
-                if (country.equals("ES")) {
-                    return "es-ES";
-                } else {
-                    return "es-MX";
-                }
+                if (country.equals("ES")) return "es-ES";
+                else return "es-MX";
+
             case "pt":
-                if (country.equals("BR")) {
-                    return "pt-BR";
+                if (country.equals("BR")) return "pt-BR";
+                else return "pt-PT";
+
+            case "en":
+                List<String> britishGroup = Arrays.asList("GB", "UK", "IE", "AU", "NZ", "ZA");
+
+                if (britishGroup.contains(country)) {
+                    return "en-GB";
                 } else {
-                    return "pt-PT";
+                    return "en-US";
                 }
-            case "it":
-                return "it-IT";
-            case "de":
-                return "de-DE";
-            case "fr":
-                return "fr-FR";
-            default:
-                return "en-US";
+
+            case "it": return "it-IT";
+            case "de": return "de-DE";
+            case "fr": return "fr-FR";
+            default: return "en-US";
         }
     }
 }
