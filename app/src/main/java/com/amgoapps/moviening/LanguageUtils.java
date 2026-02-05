@@ -43,7 +43,7 @@ public class LanguageUtils {
                 else return "pt-PT";
 
             case "en":
-                List<String> britishGroup = Arrays.asList("GB", "UK", "IE", "AU", "NZ", "ZA");
+                List<String> britishGroup = Arrays.asList("GB", "IE", "AU", "NZ", "ZA", "IN", "SG", "MY");
 
                 if (britishGroup.contains(country)) {
                     return "en-GB";
