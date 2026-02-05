@@ -18,6 +18,7 @@ public class LanguageUtils {
      * Actualmente soporta:</p>
      * <ul>
      * <li>Español (retorna {@code "es-ES"} o {@code "es-MX"} según el país)</li>
+     * <li>Portugués (retorna {@code "pt-BR"} o {@code "pt-PT"} según el país)</li>
      * <li>Italiano (retorna {@code "it-IT"})</li>
      * <li>Alemán (retorna {@code "de-DE"})</li>
      * <li>Francés (retorna {@code "fr-FR"})</li>
@@ -37,6 +38,12 @@ public class LanguageUtils {
                     return "es-ES";
                 } else {
                     return "es-MX";
+                }
+            case "pt":
+                if (country.equals("BR")) {
+                    return "pt-BR";
+                } else {
+                    return "pt-PT";
                 }
             case "it":
                 return "it-IT";
