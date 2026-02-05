@@ -17,7 +17,7 @@ public class LanguageUtils {
      * <p>El método consulta el idioma por defecto del dispositivo mediante {@link Locale#getDefault()}.
      * Actualmente soporta:</p>
      * <ul>
-     * <li>Español (retorna {@code "es-ES"})</li>
+     * <li>Español (retorna {@code "es-ES"} o {@code "es-MX"} según el país)</li>
      * <li>Italiano (retorna {@code "it-IT"})</li>
      * <li>Alemán (retorna {@code "de-DE"})</li>
      * <li>Francés (retorna {@code "fr-FR"})</li>
@@ -29,10 +29,15 @@ public class LanguageUtils {
      */
     public static String getApiLanguage() {
         String language = Locale.getDefault().getLanguage();
+        String country = Locale.getDefault().getCountry();
 
         switch (language) {
             case "es":
-                return "es-ES";
+                if (country.equals("ES")) {
+                    return "es-ES";
+                } else {
+                    return "es-MX";
+                }
             case "it":
                 return "it-IT";
             case "de":
